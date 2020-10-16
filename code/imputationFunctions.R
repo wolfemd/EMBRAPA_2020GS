@@ -14,7 +14,7 @@ runBeagle5<-function(targetVCF,refVCF,mapFile,outName,
                 "nthreads=",nthreads," impute=",impute," ne=",ne,
                 ifelse(!is.null(samplesToExclude),paste0(" excludesamples=",samplesToExclude),""))) }
 
-postImputeFilter<-function(inPath=NULL,inName,outPath=NULL,outName){
+postImputeFilter<-function(inPath=NULL,inName,outPath=NULL,outName,DR2thresh=0.75,HWEthresh=1e-20,MAFthresh=0.005){
   require(magrittr); require(dplyr)
   # Extract imputation quality scores (DR2 and AF) from VCF
   system(paste0("vcftools --gzvcf ",inPath,inName,".vcf.gz --get-INFO DR2 --get-INFO AF --out ",outPath,inName))
@@ -35,9 +35,9 @@ postImputeFilter<-function(inPath=NULL,inName,outPath=NULL,outName){
     dplyr::mutate(MAF=ifelse(AF>0.5,1-AF,AF))
   # Identify sites passing filter
   sitesPassingFilters<-stats2filterOn %>%
-    dplyr::filter(DR2>=0.75,
-                  P_HWE>1e-20,
-                  MAF>0.005) %>%
+    dplyr::filter(DR2>=DR2thresh,
+                  P_HWE>HWEthresh-20,
+                  MAF>MAFthresh) %>%
     dplyr::select(CHROM,POS)
   print(paste0(nrow(sitesPassingFilters)," sites passing filter"))
 
