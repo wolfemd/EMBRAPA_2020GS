@@ -9,64 +9,98 @@ editor_options:
   chunk_output_type: console
 ---
 
-This repository and website documents all analyses, summary, tables and figures associated with EMBRAPA genomic prediction and related procedures (e.g. imputation). 
+This repository and website documents all analyses, summary, tables and figures associated with EMBRAPA genomic prediction and related procedures (e.g. imputation).
 
-# Analyses
+# Imputation 2019
 
-**Imputation conducted in 2019:** Imputation of the L. America reference panel (GBS+DArTseqLD) and EMBRAPA GS C1 (DArTseqLD only) was done in October 2019. The codes for 2019 imputation were never published in a Git repository, though they were shared internally. The 2019 imputed VCFs will serve as imputation reference panel for 2020. Therefore, I am publishing the 2019 codes here _as is_ for reference.
+**Imputation conducted in 2019:** Imputation of the L. America reference panel (GBS+DArTseqLD) and EMBRAPA GS C1 (DArTseqLD only) was done in October 2019. The codes for 2019 imputation were never published in a Git repository, though they were shared internally. The 2019 imputed VCFs will serve as imputation reference panel for 2020. Therefore, I am publishing the 2019 codes here *as is* for reference.
 
-  * [Convert DCas19-4403 report to VCF for imputation](convertDCas19_4403_ToVCF_102419.html): The report DCas19_4403 was converted to VCF and then included in the ImputationReferencePanel VCF and imputed along with the GBS/GBS+DArT samples.
-  * [Verify GBS-to-DArTseqLD sample matches](Verify_gbs2dart_sampleMatches_EMBRAPA_102419.html): Verify GBS-2-DArT matches by PLINK IBD was done on samples DCas19_4301.
-  * [Imputation steps](Imputation_EMBRAPA_102419.html): this was a multi-stage process including assembly and filtering of VCFs, imputation with Beagle (4.1 and 5.0). The ultimate step of this pipeline was to impute the C1 progeny data, which were extracted from the DArTseqLD report "DCas19_4301", with the imputation reference panel.
+-   [Convert DCas19-4403 report to VCF for imputation](convertDCas19_4403_ToVCF_102419.html): The report DCas19\_4403 was converted to VCF and then included in the ImputationReferencePanel VCF and imputed along with the GBS/GBS+DArT samples.
+-   [Verify GBS-to-DArTseqLD sample matches](Verify_gbs2dart_sampleMatches_EMBRAPA_102419.html): Verify GBS-2-DArT matches by PLINK IBD was done on samples DCas19\_4301.
+-   [Imputation steps](Imputation_EMBRAPA_102419.html): this was a multi-stage process including assembly and filtering of VCFs, imputation with Beagle (4.1 and 5.0). The ultimate step of this pipeline was to impute the C1 progeny data, which were extracted from the DArTseqLD report "DCas19\_4301", with the imputation reference panel.
 
-**Imputation 2020:** DArTseqLD (DCas20-5360) arrived on Aug. 22, 2020. Contains **GS C2** for EMBRAPA. 
+# Imputation 2020
 
-Two main steps:  
+DArTseqLD (DCas20-5360) arrived on Aug. 22, 2020. Contains **GS C2** for EMBRAPA.
 
-  * [Convert DCas20-5360 report to VCF for imputation](convertDCas20_5360_ToVCF.html):
-  * [Impute DCas20-5360](ImputeDCas20_5360.html):  
+**STEPS:**  
 
-Last year's reference panel for imputation had ~64K SNP. The C1 progeny imputed by it had <9K SNP _after_ post-imputation filters.
+-   [Convert DCas20-5360 report to VCF for imputation](convertDCas20_5360_ToVCF.html):
+-   [Impute DCas20-5360](ImputeDCas20_5360.html):
+    * **NEW SECTION:** Dosage format files, see below for guide to files. 
+    * **NEW SECTION:** Less stringent filter (DR2>0.3), see below for guide to files.
 
-Since imputation with Beagle5.0 is very fast, I imputed C2 (DCas20-5360) with three variants of the reference panel:
+**FILES:**
 
-1. Last year's reference panel, without C1 (64K SNP)
-  + **RefPanel VCF filename:** `chr*_ImputationReferencePanel_EMBRAPA_Phased_102619.vcf.gz`
-  + **Imputed C2 filename:** `chr*_DCas20_5360_REFimputed.vcf.gz`
-  + **Post-impute filtered C2 filename:** `chr*_DCas20_5360_REFimputedAndFiltered.vcf.gz`
-  
-2. Last year's ref. panel + C1 (include unfiltered C1 data = 64K refpanel SNP)
-  + **RefPanel VCF filename:** `chr*_ImputationReferencePanel_C1progenyAdded_EMBRAPA.vcf.gz`
-  + **Imputed C2 filename:** `chr*_DCas20_5360_REFimputedWithC1unfiltered.vcf.gz`
-  + **Post-impute filtered C2 filename:** `chr*_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.vcf.gz`
-  
-3. Last year's reference panel + C1 (reduce refpanel to sites passing post-impute filter in C1 = 9K SNP)
+[**DOWNLOAD FROM CASSAVABASE FTP SERVER**](ftp://ftp.cassavabase.org/marnin_datasets/EMBRAPA_2020GS/output/)
+or[**DOWNLOAD (files <50Mb) FROM GitHub**](https://github.com/wolfemd/EMBRAPA_2020GS/tree/master/output)
 
-  + **RefPanel VCF filename:** `chr*_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA.vcf.gz`
-  + **Imputed C2 filename:** `chr*_DCas20_5360_REFimputedWithC1filtered.vcf.gz`
-  + **Post-impute filtered C2 filename:** `chr*_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered.vcf.gz`
+Last year's reference panel for imputation had \~64K SNP. The C1 progeny imputed by it had \<9K SNP *after* post-imputation filters. Since imputation with Beagle5.0 is very fast, I imputed C2 (DCas20-5360) with three variants of the reference panel:
 
+
+1.  Last year's reference panel, without C1 (64K SNP)
+
+-   **RefPanel VCF filename:** `chr*_ImputationReferencePanel_EMBRAPA_Phased_102619.vcf.gz`
+-   **Imputed C2 filename:** `chr*_DCas20_5360_REFimputed.vcf.gz`
+-   **Post-impute filtered C2 filename:** `chr*_DCas20_5360_REFimputedAndFiltered.vcf.gz`
+-   **Genome-wide dosage matrix format for use in R:** 
+        + Imputation Reference Panel: `DosageMatrix_ImputationReferencePanel_EMBRAPA_Phased_102619.rds`
+        + DCas20_5360 with standard post-impute filter: `DosageMatrix_DCas20_5360_REFimputedAndFiltered.rds`
+        + DCas20_5360 with "light" post-impute filter: `DosageMatrix_DCas20_5360_REFimputeLightFiltDR2pt3.rds`
+
+2.  Last year's ref. panel + C1 (include unfiltered C1 data = 64K refpanel SNP)
+
+-   **RefPanel VCF filename:** `chr*_ImputationReferencePanel_C1progenyAdded_EMBRAPA.vcf.gz`
+-   **Imputed C2 filename:** `chr*_DCas20_5360_REFimputedWithC1unfiltered.vcf.gz`
+-   **Post-impute filtered C2 filename:** `chr*_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.vcf.gz`
+-   **Genome-wide dosage matrix format for use in R:** 
+        + Imputation Reference Panel: `DosageMatrix_ImputationReferencePanel_C1progenyAdded_EMBRAPA.rds`
+        + DCas20_5360 with standard post-impute filter: [**WARNING:** 0 SNP on Chr. 4] `DosageMatrix_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.rds`
+        + DCas20_5360 with "light" post-impute filter: [**WARNING:** 0 SNP on Chr. 4] `DosageMartix_DCas20_5360_REFimputedWithC1unfiltered_LightPostImputeFiltDR2pt3.rds`
+    
+**NOTICE:** `REFimputedWithC1unfiltered` is not a good dataset. Chr. 4 is entirely filtered out, including using the "lighter" filter. This emphasizes that it is not a good idea to use poorly imputed haplotypes in the reference panel... evidenced also by the fact that the `REFimputedWithC1filtered` has markers passing filters on all chromosomes.
+
+
+3.  Last year's reference panel + C1 (reduce refpanel to sites passing post-impute filter in C1 = 9K SNP)
+
+-   **RefPanel VCF filename:** `chr*_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA.vcf.gz`
+-   **Imputed C2 filename:** `chr*_DCas20_5360_REFimputedWithC1filtered.vcf.gz`
+-   **Post-impute filtered C2 filename:** `chr*_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered.vcf.gz`
+-   **Genome-wide dosage matrix format for use in R:** 
+        + Imputation Reference Panel: `DosageMatrix_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA.rds`
+        + DCas20_5360 with standard post-impute filter: `DosageMatrix_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered.rds`
+        + DCas20_5360 with "light" post-impute filter: `DosageMartix_DCas20_5360_REFimputedWithC1filtered_LightPostImputeFiltDR2pt3.rds`
+
+
+**HOW TO COMBINE DOSAGE MATRICES:** Users will want to combine the genotypes in the imputation reference panel files, with the genotypes in the imputed DArT file. They can have slightly different sets of markers along the columns. Here is a basic example how to combine:
+```{r, eval=F}
+snps_refpanel<-readRDS("DosageMatrix_ImputationReferencePanel_EMBRAPA_Phased_102619.rds")
+snps_dcas20_5360<-readRDS("DosageMatrix_DCas20_5360_REFimputeLightFiltDR2pt3.rds")
+
+snps2keep<-colnames(snps_refpanel)[,colnames(snps_refpanel) %in% colnames(snps_dcas20_5360)]
+snps<-bind_rows(snps_refpanel[,snps2keep],
+                snps_dcas20_5360[,snps2keep])
+```
 
 **SUGGESTION:** Use combination PCA, prediction, correlation of kinship matrices (off-diagonals and diagonals) to compare these datasets.
 
 # Data availability and reproducibility
 
-The R package **workflowr** was used to document this study reproducibly. 
+The R package **workflowr** was used to document this study reproducibly.
 
-Much of the supporting data _and_ output from the analyses documented here are too large for GitHub. 
+Much of the supporting data *and* output from the analyses documented here are too large for GitHub.
 
-The repository will be mirrored, here:  [ftp://ftp.cassavabase.org/marnin_datasets/EMBRAPA_2020GS/](ftp://ftp.cassavabase.org/marnin_datasets/EMBRAPA_2020GS/) with all data.
+The repository will be mirrored, here: <ftp://ftp.cassavabase.org/marnin_datasets/EMBRAPA_2020GS/> with all data.
 
 # Directory structure of this repository
 
-**NOTICE:** `data/` and `output/` are empty on GitHub. Please see [ftp://ftp.cassavabase.org/marnin_datasets/EMBRAPA_2020GS/](ftp://ftp.cassavabase.org/marnin_datasets/EMBRAPA_2020GS/) for access.
+**NOTICE:** `data/` and `output/` are empty on GitHub. Please see <ftp://ftp.cassavabase.org/marnin_datasets/EMBRAPA_2020GS/> for access.
 
-1. `data/`: raw data (e.g. unimputed SNP data)
-2. `output/`: outputs (e.g. imputed SNP data)
-3. `analysis/`: most code and workflow documented in **.Rmd** files
-4. `docs/`: compiled **.html**, "knitted" from **.Rmd**
+1.  `data/`: raw data (e.g. unimputed SNP data)
+2.  `output/`: outputs (e.g. imputed SNP data)
+3.  `analysis/`: most code and workflow documented in **.Rmd** files
+4.  `docs/`: compiled **.html**, "knitted" from **.Rmd**
 
 Supporting functions `code/`
 
 The analyses in the **html** / **Rmd** files referenced above often source R scripts in the `code/` sub-folder. These are wrapper functions around the packaged core functions in **predCrossVar**, to do the specific analyses for this paper.
-
