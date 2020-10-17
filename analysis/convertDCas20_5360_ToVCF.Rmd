@@ -7,8 +7,8 @@ editor_options:
   chunk_output_type: inline
 ---
 
-
 # Input Parameters
+
 ```{r, eval=F}
 #' @dartvcfInput input name and path of "vcf" file from DArT
 #' @dartcountsInput input name and path of counts file from DArT
@@ -74,12 +74,14 @@ colnames(vcf)[1:30]
 Everything checks out!
 
 # Conversion function
+
 Printed here, but available and sourced from `code/` subdirectory.
+
 ```{r, code = readLines(here::here("code/","convertDart2vcf.R"))}
 ```
 
-
 # Run conversion function
+
 ```{r, eval=F}
 source(here::here("code/","convertDart2vcf.R"))
 convertDart2vcf(dartvcfInput,dartcountsInput,outName,

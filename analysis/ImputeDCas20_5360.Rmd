@@ -254,12 +254,13 @@ future_map(1:18,~postImputeFilter(inPath=inPath,
                                   outPath=outPath,
                                   outName=paste0("chr",.,"_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered")))
 ```
+
 ```{r,eval = FALSE}
 purrr::map(1:18,~system(paste0("zcat ",here::here("output/"),"chr",.,"_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.vcf.gz | wc -l")))
 # 1568
 # 768
 # 917
-# 10
+# 10 <--- ZERO MARKERS ON CHR. 4 (10 ROWS = THE HEADER)
 # 1201
 # 748
 # 347
@@ -369,3 +370,161 @@ purrr::map(1:18,~system(paste0("zcat ",here::here("output/"),"chr",.,"_DCas20_53
 cd /workdir/mw489/EMBRAPA_2020GS/output/;
 cp *_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered* /home/jj332_cas/marnin/EMBRAPA_2020GS/output/
 ```
+
+# Lighter post-impute filters
+```{bash, eval=F}
+cd /home/jj332_cas/marnin/EMBRAPA_2020GS;
+```
+
+```{r,eval = FALSE}
+inPath<-here::here("output/")
+outPath<-here::here("output/")
+source(here::here("code","imputationFunctions.R"))
+require(furrr); options(mc.cores=18); plan(multiprocess)
+# Re-filter the REFimputed dataset
+future_map(1:18,~postImputeFilter(inPath=inPath,
+                                  inName=paste0("chr",.,"_DCas20_5360_REFimputed"),
+                                  outPath=outPath,
+                                  outName=paste0("chr",.,"_DCas20_5360_REFimputeLightFiltDR2pt3"),
+                                  DR2thresh=0.3))
+# Re-filter the REFimputedWithC1unfiltered dataset
+future_map(1:18,~postImputeFilter(inPath=inPath,
+                                  inName=paste0("chr",.,"_DCas20_5360_REFimputedWithC1unfiltered"),
+                                  outPath=outPath,
+                                  outName=paste0("chr",.,"_DCas20_5360_REFimputedWithC1unfiltered_LightPostImputeFiltDR2pt3"),
+                                  DR2thresh=0.3))
+# Re-filter the REFimputedWithC1filtered dataset
+future_map(1:18,~postImputeFilter(inPath=inPath,
+                                  inName=paste0("chr",.,"_DCas20_5360_REFimputedWithC1filtered"),
+                                  outPath=outPath,
+                                  outName=paste0("chr",.,"_DCas20_5360_REFimputedWithC1filtered_LightPostImputeFiltDR2pt3"),
+                                  DR2thresh=0.3))
+# Check what's left 
+## REFimputed dataset 
+purrr::map(1:18,~system(paste0("zcat ",here::here("output/"),"chr",.,"_DCas20_5360_REFimputeLightFiltDR2pt3.vcf.gz | wc -l")))
+# 2399
+# 1443
+# 1714
+# 554   <---- THAT'S BETTER THAN BELOW
+# 1966
+# 1319
+# 618
+# 1176
+# 1417
+# 965
+# 866
+# 1082
+# 1019
+# 1850
+# 1867
+# 746
+# 1812
+# 1347
+
+## REFimputedWithC1unfiltered dataset 
+purrr::map(1:18,~system(paste0("zcat ",here::here("output/"),"chr",.,"_DCas20_5360_REFimputedWithC1unfiltered_LightPostImputeFiltDR2pt3.vcf.gz | wc -l")))
+# 2735
+# 1722
+# 1845
+# 10   <---- THAT'S NOT GOOD. ZERO CHR. 4 MARKERS
+# 2154
+# 1574
+# 836
+# 1349
+# 1563
+# 1327
+# 1056
+# 1243
+# 1149
+# 2006
+# 1993
+# 879
+# 1948
+# 1530
+
+## REFimputedWithC1filtered dataset 
+purrr::map(1:18,~system(paste0("zcat ",here::here("output/"),"chr",.,"_DCas20_5360_REFimputedWithC1filtered_LightPostImputeFiltDR2pt3.vcf.gz | wc -l")))
+# 970
+# 416
+# 406
+# 228
+# 755
+# 396
+# 179
+# 487
+# 405
+# 222
+# 274
+# 394
+# 316
+# 697
+# 733
+# 259
+# 382
+# 552
+```
+
+```{bash, eval=F}
+cd /workdir/mw489/EMBRAPA_2020GS/output/;
+cp *_DCas20_5360_REFimputedAndFiltered* /home/jj332_cas/marnin/EMBRAPA_2020GS/output/
+```
+
+# Formats for downstream analysis
+
+The function below will (1) convert the input VCF to plink1.9 binary format and (2) convert the plink binary to a dosage (0,1,2) matrix with special attention to which allele gets counted in the file.
+
+**NOTICE:** I was worried about `plink1.9` changing allele codes between files. There is some risk the counted allele could switch between e.g. the reference panel and the progeny files because of allele freq. (see plink documentation). To avoid this, went to extra trouble: write a file suffixed `*.alleleToCount` listing SNP ID (column 1) and the ALT allele from the VCF (column 2). Pass the file to `plink1.9` using the `--recode-allele` flag to ensure all output dosages count the ALT allele consistent with the VCFs. The reason to use `plink1.9` is that `Beagle5` imputed files don't have a **DS** (dosage) field that can be directly extracted. Instead, phased genotypes e.g. `0|1` need to be converted to dosages (e.g. `0|1 --> 1`, `1|1 --> 2`). An alternative might be to extract the haplotypes using `vcftools` and manually (in R) computed the dosages; that would give most control but is slow.
+
+```{bash, eval=F}
+cd /home/jj332_cas/marnin/EMBRAPA_2020GS/;
+```
+```{r, eval=F}
+library(tidyverse); library(magrittr);
+source(here::here("code","imputationFunctions.R"))
+require(furrr); options(mc.cores=18); plan(multiprocess)
+pathOut<-here::here("output/")
+
+# 9 different filesets to convert
+## Imputation reference panels
+future_map(1:18,~convertVCFtoDosage(pathIn="/home/jj332_cas/CassavaGenotypeData/nextgenImputation2019/ImputationEMBRAPA_102419/",
+                                    pathOut=pathOut,
+                                    vcfName = paste0("chr",.,"_ImputationReferencePanel_EMBRAPA_Phased_102619")))
+future_map(1:18,~convertVCFtoDosage(pathIn=here::here("data/"),pathOut=pathOut,
+                                    vcfName = paste0("chr",.,"_ImputationReferencePanel_C1progenyAdded_EMBRAPA")))
+future_map(1:18,~convertVCFtoDosage(pathIn=here::here("data/"),pathOut=pathOut,
+                                    vcfName = paste0("chr",.,"_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA")))
+## Standard filtered imputed C2
+future_map(1:18,~convertVCFtoDosage(pathIn=here::here("output/"),pathOut=pathOut,
+                                    vcfName = paste0("chr",.,"_DCas20_5360_REFimputedAndFiltered")))
+future_map(1:18,~convertVCFtoDosage(pathIn=here::here("output/"),pathOut=pathOut,
+                                    vcfName = paste0("chr",.,"_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered")))
+future_map(1:18,~convertVCFtoDosage(pathIn=here::here("output/"),pathOut=pathOut,
+                                    vcfName = paste0("chr",.,"_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered")))
+
+## "Lightly" filtered imputed C2
+future_map(1:18,~convertVCFtoDosage(pathIn=here::here("output/"),pathOut=pathOut,
+                                    vcfName = paste0("chr",.,"_DCas20_5360_REFimputedWithC1filtered_LightPostImputeFiltDR2pt3")))
+future_map(1:18,~convertVCFtoDosage(pathIn=here::here("output/"),pathOut=pathOut,
+                                    vcfName = paste0("chr",.,"_DCas20_5360_REFimputedWithC1unfiltered_LightPostImputeFiltDR2pt3")))
+future_map(1:18,~convertVCFtoDosage(pathIn=here::here("output/"),pathOut=pathOut,
+                                    vcfName = paste0("chr",.,"_DCas20_5360_REFimputeLightFiltDR2pt3")))
+
+# Genome-wide dosage (for use in R) for each dataset
+## Imputation reference panels
+createGenomewideDosage(pathIn = here::here("output/"), chroms=1:18, "_ImputationReferencePanel_EMBRAPA_Phased_102619")
+createGenomewideDosage(pathIn = here::here("output/"), chroms=1:18, "_ImputationReferencePanel_C1progenyAdded_EMBRAPA")
+createGenomewideDosage(pathIn = here::here("output/"), chroms=1:18, "_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA")
+## Standard filtered imputed C2
+createGenomewideDosage(pathIn = here::here("output/"), chroms=1:18, "_DCas20_5360_REFimputedAndFiltered")
+createGenomewideDosage(pathIn = here::here("output/"), chroms=c(1:3,5:18), # chrom 4 missing from this one 
+                       "_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered")
+createGenomewideDosage(pathIn = here::here("output/"), chroms=1:18, "_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered")
+## "Lightly" filtered imputed C2
+createGenomewideDosage(pathIn = here::here("output/"), chroms=1:18, "_DCas20_5360_REFimputedWithC1filtered_LightPostImputeFiltDR2pt3")
+createGenomewideDosage(pathIn = here::here("output/"), chroms=c(1:3,5:18), # chrom 4 missing from this one 
+                       "_DCas20_5360_REFimputedWithC1unfiltered_LightPostImputeFiltDR2pt3")
+createGenomewideDosage(pathIn = here::here("output/"), chroms=1:18, "_DCas20_5360_REFimputeLightFiltDR2pt3")
+
+```
+
+
