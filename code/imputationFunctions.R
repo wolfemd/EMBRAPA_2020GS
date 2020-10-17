@@ -1,3 +1,5 @@
+require(tidyverse); require(magrittr);
+
 splitVCFbyChr<-function(Chr,vcfIn,filters=NULL,outPath,outSuffix){
   system(paste0("vcftools --gzvcf ",vcfIn," ",
                 "--chr ",Chr," ",filters," ",
@@ -36,7 +38,7 @@ postImputeFilter<-function(inPath=NULL,inName,outPath=NULL,outName,DR2thresh=0.7
   # Identify sites passing filter
   sitesPassingFilters<-stats2filterOn %>%
     dplyr::filter(DR2>=DR2thresh,
-                  P_HWE>HWEthresh-20,
+                  P_HWE>HWEthresh,
                   MAF>MAFthresh) %>%
     dplyr::select(CHROM,POS)
   print(paste0(nrow(sitesPassingFilters)," sites passing filter"))
@@ -70,6 +72,37 @@ filter_positions<-function(inPath=NULL,inVCF,positionFile,outPath=NULL,outName){
                 outPath,outName,".vcf.gz"))
 }
 
+convertVCFtoDosage<-function(pathIn,pathOut,vcfName){
+  #' @vcfName expects file to be *.vcf.gz, expects name _not_ to include extension .vcf.gz
+  # Make binary plink
+  system(paste0("export PATH=/programs/plink-1.9-x86_64-beta3.30:$PATH;",
+                "plink --vcf ",pathIn,vcfName,".vcf.gz ",
+                "--make-bed --const-fid --keep-allele-order ",
+                "--out ",pathOut,vcfName))
+  # Write first 5 columns of VCF file to txt file *.sitesWithAlleles
+  system(paste0("zcat ",pathIn,vcfName,".vcf.gz ",
+                "| cut -f1-5 > ",pathOut,vcfName,".sitesWithAlleles"))
+  # Read *.sitesWithAlleles, take columns required by plink and write back to disk
+  read.table(paste0(pathOut,vcfName,".sitesWithAlleles"),
+             stringsAsFactors = F, header = F, sep = c("\t")) %>%
+    select(V3,V5) %>%
+    write.table(.,file=paste0(pathOut,vcfName,".alleleToCount"),
+                row.names = F, sep = c("\t"), quote = F, col.names = F)
+  # Recode to dosage
+  system(paste0("export PATH=/programs/plink-1.9-x86_64-beta3.30:$PATH;",
+                "plink --bfile ",pathOut,vcfName," --keep-allele-order --recode A ",
+                "--recode-allele ",pathOut,vcfName,".alleleToCount ",
+                "--out ",pathOut,vcfName))
+}
+
+createGenomewideDosage<-function(pathIn,chroms,nameOfchromWiseDosageFiles){
+  snps<-future_map(chroms,~read.table(paste0(pathIn,"chr",.,nameOfchromWiseDosageFiles,".raw"), stringsAsFactor=F, header = T) %>%
+                     dplyr::select(-FID,-PAT,-MAT,-SEX,-PHENOTYPE) %>%
+                     column_to_rownames(var = "IID") %>%
+                     as.matrix()) %>%
+    reduce(.,cbind)
+  saveRDS(snps,file = paste0(pathIn,"DosageMatrix",nameOfchromWiseDosageFiles,".rds"))
+}
 
 
 # targetVCF=paste0(targetVCFpath,"chr",1,"_DCas20_5360.vcf.gz")
