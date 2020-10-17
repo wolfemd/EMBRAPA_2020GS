@@ -615,16 +615,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwolfemdEMBRAPA2020GStreed2fd3f73416c3d5a81b769b58495b658135ffb39targetblankd2fd3f7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/wolfemd/EMBRAPA_2020GS/tree/d2fd3f73416c3d5a81b769b58495b658135ffb39" target="_blank">d2fd3f7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwolfemdEMBRAPA2020GStree20aef71412c4a6be019c389ad61c5eac908d884ctargetblank20aef71a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/wolfemd/EMBRAPA_2020GS/tree/20aef71412c4a6be019c389ad61c5eac908d884c" target="_blank">20aef71</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomwolfemdEMBRAPA2020GStreed2fd3f73416c3d5a81b769b58495b658135ffb39targetblankd2fd3f7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwolfemdEMBRAPA2020GStree20aef71412c4a6be019c389ad61c5eac908d884ctargetblank20aef71a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/wolfemd/EMBRAPA_2020GS/tree/d2fd3f73416c3d5a81b769b58495b658135ffb39" target="_blank">d2fd3f7</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/wolfemd/EMBRAPA_2020GS/tree/20aef71412c4a6be019c389ad61c5eac908d884c" target="_blank">20aef71</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -2368,6 +2368,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/wolfemd/EMBRAPA_2020GS/blob/20aef71412c4a6be019c389ad61c5eac908d884c/analysis/index.Rmd" target="_blank">20aef71</a>
+</td>
+<td>
+wolfemd
+</td>
+<td>
+2020-10-17
+</td>
+<td>
+Tweaks to bulleted lists.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/wolfemd/EMBRAPA_2020GS/45cee36e77232a841725c56368aecf3927f76326/docs/index.html" target="_blank">45cee36</a>
+</td>
+<td>
+wolfemd
+</td>
+<td>
+2020-10-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/wolfemd/EMBRAPA_2020GS/blob/f309dea2ba349a18cad268028838afee0f8902fd/analysis/index.Rmd" target="_blank">f309dea</a>
 </td>
 <td>
@@ -2555,8 +2589,8 @@ Start workflowr project.
 <p>DArTseqLD (DCas20-5360) arrived on Aug. 22, 2020. Contains <strong>GS C2</strong> for EMBRAPA.</p>
 <p><strong>STEPS:</strong></p>
 <ul>
-<li><a href="convertDCas20_5360_ToVCF.html">Convert DCas20-5360 report to VCF for imputation</a>:</li>
-<li><a href="ImputeDCas20_5360.html">Impute DCas20-5360</a>:
+<li><p><a href="convertDCas20_5360_ToVCF.html">Convert DCas20-5360 report to VCF for imputation</a>:</p></li>
+<li><p><a href="ImputeDCas20_5360.html">Impute DCas20-5360</a>:</p>
 <ul>
 <li><strong>NEW SECTION:</strong> Dosage format files, see below for guide to files.</li>
 <li><strong>NEW SECTION:</strong> Less stringent filter (DR2&gt;0.3), see below for guide to files.</li>
@@ -2569,29 +2603,44 @@ Start workflowr project.
 <li>Last year’s reference panel, without C1 (64K SNP)</li>
 </ol>
 <ul>
-<li><strong>RefPanel VCF filename:</strong> <code>chr*_ImputationReferencePanel_EMBRAPA_Phased_102619.vcf.gz</code></li>
-<li><strong>Imputed C2 filename:</strong> <code>chr*_DCas20_5360_REFimputed.vcf.gz</code></li>
-<li><strong>Post-impute filtered C2 filename:</strong> <code>chr*_DCas20_5360_REFimputedAndFiltered.vcf.gz</code></li>
-<li><strong>Genome-wide dosage matrix format for use in R:</strong> + Imputation Reference Panel: <code>DosageMatrix_ImputationReferencePanel_EMBRAPA_Phased_102619.rds</code> + DCas20_5360 with standard post-impute filter: <code>DosageMatrix_DCas20_5360_REFimputedAndFiltered.rds</code> + DCas20_5360 with “light” post-impute filter: <code>DosageMatrix_DCas20_5360_REFimputeLightFiltDR2pt3.rds</code></li>
+<li><p><strong>RefPanel VCF filename:</strong> <code>chr*_ImputationReferencePanel_EMBRAPA_Phased_102619.vcf.gz</code></p></li>
+<li><p><strong>Imputed C2 filename:</strong> <code>chr*_DCas20_5360_REFimputed.vcf.gz</code></p></li>
+<li><p><strong>Post-impute filtered C2 filename:</strong> <code>chr*_DCas20_5360_REFimputedAndFiltered.vcf.gz</code></p></li>
+<li><p><strong>Genome-wide dosage matrix format for use in R:</strong></p>
+<ul>
+<li><p>Imputation Reference Panel: <code>DosageMatrix_ImputationReferencePanel_EMBRAPA_Phased_102619.rds</code></p></li>
+<li><p>DCas20_5360 with standard post-impute filter: <code>DosageMatrix_DCas20_5360_REFimputedAndFiltered.rds</code></p></li>
+<li><p>DCas20_5360 with “light” post-impute filter: <code>DosageMatrix_DCas20_5360_REFimputeLightFiltDR2pt3.rds</code></p></li>
+</ul></li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
 <li>Last year’s ref. panel + C1 (include unfiltered C1 data = 64K refpanel SNP)</li>
 </ol>
 <ul>
-<li><strong>RefPanel VCF filename:</strong> <code>chr*_ImputationReferencePanel_C1progenyAdded_EMBRAPA.vcf.gz</code></li>
-<li><strong>Imputed C2 filename:</strong> <code>chr*_DCas20_5360_REFimputedWithC1unfiltered.vcf.gz</code></li>
-<li><strong>Post-impute filtered C2 filename:</strong> <code>chr*_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.vcf.gz</code></li>
-<li><strong>Genome-wide dosage matrix format for use in R:</strong> + Imputation Reference Panel: <code>DosageMatrix_ImputationReferencePanel_C1progenyAdded_EMBRAPA.rds</code> + DCas20_5360 with standard post-impute filter: [<strong>WARNING:</strong> 0 SNP on Chr. 4] <code>DosageMatrix_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.rds</code> + DCas20_5360 with “light” post-impute filter: [<strong>WARNING:</strong> 0 SNP on Chr. 4] <code>DosageMartix_DCas20_5360_REFimputedWithC1unfiltered_LightPostImputeFiltDR2pt3.rds</code></li>
+<li><p><strong>RefPanel VCF filename:</strong> <code>chr*_ImputationReferencePanel_C1progenyAdded_EMBRAPA.vcf.gz</code></p></li>
+<li><p><strong>Imputed C2 filename:</strong> <code>chr*_DCas20_5360_REFimputedWithC1unfiltered.vcf.gz</code></p></li>
+<li><p><strong>Post-impute filtered C2 filename:</strong> <code>chr*_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.vcf.gz</code></p></li>
+<li><p><strong>Genome-wide dosage matrix format for use in R:</strong></p>
+<ul>
+<li><p>Imputation Reference Panel: <code>DosageMatrix_ImputationReferencePanel_C1progenyAdded_EMBRAPA.rds</code></p></li>
+<li><p>DCas20_5360 with standard post-impute filter: [<strong>WARNING:</strong> 0 SNP on Chr. 4] <code>DosageMatrix_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.rds</code></p></li>
+<li><p>DCas20_5360 with “light” post-impute filter: [<strong>WARNING:</strong> 0 SNP on Chr. 4] <code>DosageMartix_DCas20_5360_REFimputedWithC1unfiltered_LightPostImputeFiltDR2pt3.rds</code></p></li>
+</ul></li>
 </ul>
 <p><strong>NOTICE:</strong> <code>REFimputedWithC1unfiltered</code> is not a good dataset. Chr. 4 is entirely filtered out, including using the “lighter” filter. This emphasizes that it is not a good idea to use poorly imputed haplotypes in the reference panel… evidenced also by the fact that the <code>REFimputedWithC1filtered</code> has markers passing filters on all chromosomes.</p>
 <ol start="3" style="list-style-type: decimal">
 <li>Last year’s reference panel + C1 (reduce refpanel to sites passing post-impute filter in C1 = 9K SNP)</li>
 </ol>
 <ul>
-<li><strong>RefPanel VCF filename:</strong> <code>chr*_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA.vcf.gz</code></li>
-<li><strong>Imputed C2 filename:</strong> <code>chr*_DCas20_5360_REFimputedWithC1filtered.vcf.gz</code></li>
-<li><strong>Post-impute filtered C2 filename:</strong> <code>chr*_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered.vcf.gz</code></li>
-<li><strong>Genome-wide dosage matrix format for use in R:</strong> + Imputation Reference Panel: <code>DosageMatrix_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA.rds</code> + DCas20_5360 with standard post-impute filter: <code>DosageMatrix_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered.rds</code> + DCas20_5360 with “light” post-impute filter: <code>DosageMartix_DCas20_5360_REFimputedWithC1filtered_LightPostImputeFiltDR2pt3.rds</code></li>
+<li><p><strong>RefPanel VCF filename:</strong> <code>chr*_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA.vcf.gz</code></p></li>
+<li><p><strong>Imputed C2 filename:</strong> <code>chr*_DCas20_5360_REFimputedWithC1filtered.vcf.gz</code></p></li>
+<li><p><strong>Post-impute filtered C2 filename:</strong> <code>chr*_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered.vcf.gz</code></p></li>
+<li><p><strong>Genome-wide dosage matrix format for use in R:</strong></p>
+<ul>
+<li><p>Imputation Reference Panel: <code>DosageMatrix_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA.rds</code></p></li>
+<li><p>DCas20_5360 with standard post-impute filter: <code>DosageMatrix_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered.rds</code></p></li>
+<li><p>DCas20_5360 with “light” post-impute filter: <code>DosageMartix_DCas20_5360_REFimputedWithC1filtered_LightPostImputeFiltDR2pt3.rds</code></p></li>
+</ul></li>
 </ul>
 <p><strong>HOW TO COMBINE DOSAGE MATRICES:</strong> Users will want to combine the genotypes in the imputation reference panel files, with the genotypes in the imputed DArT file. They can have slightly different sets of markers along the columns. Here is a basic example how to combine:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>snps_refpanel&lt;-<span class="kw">readRDS</span>(<span class="st">&quot;DosageMatrix_ImputationReferencePanel_EMBRAPA_Phased_102619.rds&quot;</span>)</span>
