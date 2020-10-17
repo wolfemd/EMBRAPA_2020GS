@@ -38,7 +38,7 @@ DArTseqLD (DCas20-5360) arrived on Aug. 22, 2020. Contains **GS C2** for EMBRAPA
 
 Last year's reference panel for imputation had \~64K SNP. The C1 progeny imputed by it had \<9K SNP *after* post-imputation filters. Since imputation with Beagle5.0 is very fast, I imputed C2 (DCas20-5360) with three variants of the reference panel:
 
-1.  Last year's reference panel, without C1 (64K SNP)
+1.  [**Last year's reference panel, without C1 (64K SNP)**]{style="color: DarkBlue"}
 
 -   **RefPanel VCF filename:** `chr*_ImputationReferencePanel_EMBRAPA_Phased_102619.vcf.gz`
 
@@ -54,7 +54,7 @@ Last year's reference panel for imputation had \~64K SNP. The C1 progeny imputed
 
     -   DCas20\_5360 with "light" post-impute filter: `DosageMatrix_DCas20_5360_REFimputeLightFiltDR2pt3.rds`
 
-2.  Last year's ref. panel + C1 (include unfiltered C1 data = 64K refpanel SNP)
+2.  [**Last year's ref. panel + C1 (include unfiltered C1 data = 64K refpanel SNP)**]{style="color: DarkBlue"}
 
 -   **RefPanel VCF filename:** `chr*_ImputationReferencePanel_C1progenyAdded_EMBRAPA.vcf.gz`
 
@@ -66,13 +66,13 @@ Last year's reference panel for imputation had \~64K SNP. The C1 progeny imputed
 
     -   Imputation Reference Panel: `DosageMatrix_ImputationReferencePanel_C1progenyAdded_EMBRAPA.rds`
 
-    -   DCas20\_5360 with standard post-impute filter: [**WARNING:** 0 SNP on Chr. 4] `DosageMatrix_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.rds`
+    -   DCas20\_5360 with standard post-impute filter: [[**WARNING:**]{style="color: red"} 0 SNP on Chr. 4] `DosageMatrix_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.rds`
 
-    -   DCas20\_5360 with "light" post-impute filter: [**WARNING:** 0 SNP on Chr. 4] `DosageMartix_DCas20_5360_REFimputedWithC1unfiltered_LightPostImputeFiltDR2pt3.rds`
+    -   DCas20\_5360 with "light" post-impute filter: [[**WARNING:**]{style="color: red"} 0 SNP on Chr. 4] `DosageMartix_DCas20_5360_REFimputedWithC1unfiltered_LightPostImputeFiltDR2pt3.rds`
 
-**NOTICE:** `REFimputedWithC1unfiltered` is not a good dataset. Chr. 4 is entirely filtered out, including using the "lighter" filter. This emphasizes that it is not a good idea to use poorly imputed haplotypes in the reference panel... evidenced also by the fact that the `REFimputedWithC1filtered` has markers passing filters on all chromosomes.
+-   [**NOTICE:**]{style="color: red"} `REFimputedWithC1unfiltered` is not a good dataset. Chr. 4 is entirely filtered out, including using the "lighter" filter. This emphasizes that it is not a good idea to use poorly imputed haplotypes in the reference panel... evidenced also by the fact that the `REFimputedWithC1filtered` has markers passing filters on all chromosomes.
 
-3.  Last year's reference panel + C1 (reduce refpanel to sites passing post-impute filter in C1 = 9K SNP)
+3.  [**Last year's reference panel + C1 (reduce refpanel to sites passing post-impute filter in C1 = 9K SNP)**]{style="color: DarkBlue"}
 
 -   **RefPanel VCF filename:** `chr*_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA.vcf.gz`
 
