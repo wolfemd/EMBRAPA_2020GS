@@ -23,56 +23,73 @@ This repository and website documents all analyses, summary, tables and figures 
 
 DArTseqLD (DCas20-5360) arrived on Aug. 22, 2020. Contains **GS C2** for EMBRAPA.
 
-**STEPS:**  
+**STEPS:**
 
 -   [Convert DCas20-5360 report to VCF for imputation](convertDCas20_5360_ToVCF.html):
+
 -   [Impute DCas20-5360](ImputeDCas20_5360.html):
-    * **NEW SECTION:** Dosage format files, see below for guide to files. 
-    * **NEW SECTION:** Less stringent filter (DR2>0.3), see below for guide to files.
+
+    -   **NEW SECTION:** Dosage format files, see below for guide to files.
+    -   **NEW SECTION:** Less stringent filter (DR2\>0.3), see below for guide to files.
 
 **FILES:**
 
-[**DOWNLOAD FROM CASSAVABASE FTP SERVER**](ftp://ftp.cassavabase.org/marnin_datasets/EMBRAPA_2020GS/output/)
-or[**DOWNLOAD (files <50Mb) FROM GitHub**](https://github.com/wolfemd/EMBRAPA_2020GS/tree/master/output)
+[**DOWNLOAD FROM CASSAVABASE FTP SERVER**](ftp://ftp.cassavabase.org/marnin_datasets/EMBRAPA_2020GS/output/) or[**DOWNLOAD (files \<50Mb) FROM GitHub**](https://github.com/wolfemd/EMBRAPA_2020GS/tree/master/output)
 
 Last year's reference panel for imputation had \~64K SNP. The C1 progeny imputed by it had \<9K SNP *after* post-imputation filters. Since imputation with Beagle5.0 is very fast, I imputed C2 (DCas20-5360) with three variants of the reference panel:
-
 
 1.  Last year's reference panel, without C1 (64K SNP)
 
 -   **RefPanel VCF filename:** `chr*_ImputationReferencePanel_EMBRAPA_Phased_102619.vcf.gz`
+
 -   **Imputed C2 filename:** `chr*_DCas20_5360_REFimputed.vcf.gz`
+
 -   **Post-impute filtered C2 filename:** `chr*_DCas20_5360_REFimputedAndFiltered.vcf.gz`
--   **Genome-wide dosage matrix format for use in R:** 
-        + Imputation Reference Panel: `DosageMatrix_ImputationReferencePanel_EMBRAPA_Phased_102619.rds`
-        + DCas20_5360 with standard post-impute filter: `DosageMatrix_DCas20_5360_REFimputedAndFiltered.rds`
-        + DCas20_5360 with "light" post-impute filter: `DosageMatrix_DCas20_5360_REFimputeLightFiltDR2pt3.rds`
+
+-   **Genome-wide dosage matrix format for use in R:**
+
+    -   Imputation Reference Panel: `DosageMatrix_ImputationReferencePanel_EMBRAPA_Phased_102619.rds`
+
+    -   DCas20\_5360 with standard post-impute filter: `DosageMatrix_DCas20_5360_REFimputedAndFiltered.rds`
+
+    -   DCas20\_5360 with "light" post-impute filter: `DosageMatrix_DCas20_5360_REFimputeLightFiltDR2pt3.rds`
 
 2.  Last year's ref. panel + C1 (include unfiltered C1 data = 64K refpanel SNP)
 
 -   **RefPanel VCF filename:** `chr*_ImputationReferencePanel_C1progenyAdded_EMBRAPA.vcf.gz`
--   **Imputed C2 filename:** `chr*_DCas20_5360_REFimputedWithC1unfiltered.vcf.gz`
--   **Post-impute filtered C2 filename:** `chr*_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.vcf.gz`
--   **Genome-wide dosage matrix format for use in R:** 
-        + Imputation Reference Panel: `DosageMatrix_ImputationReferencePanel_C1progenyAdded_EMBRAPA.rds`
-        + DCas20_5360 with standard post-impute filter: [**WARNING:** 0 SNP on Chr. 4] `DosageMatrix_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.rds`
-        + DCas20_5360 with "light" post-impute filter: [**WARNING:** 0 SNP on Chr. 4] `DosageMartix_DCas20_5360_REFimputedWithC1unfiltered_LightPostImputeFiltDR2pt3.rds`
-    
-**NOTICE:** `REFimputedWithC1unfiltered` is not a good dataset. Chr. 4 is entirely filtered out, including using the "lighter" filter. This emphasizes that it is not a good idea to use poorly imputed haplotypes in the reference panel... evidenced also by the fact that the `REFimputedWithC1filtered` has markers passing filters on all chromosomes.
 
+-   **Imputed C2 filename:** `chr*_DCas20_5360_REFimputedWithC1unfiltered.vcf.gz`
+
+-   **Post-impute filtered C2 filename:** `chr*_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.vcf.gz`
+
+-   **Genome-wide dosage matrix format for use in R:**
+
+    -   Imputation Reference Panel: `DosageMatrix_ImputationReferencePanel_C1progenyAdded_EMBRAPA.rds`
+
+    -   DCas20\_5360 with standard post-impute filter: [**WARNING:** 0 SNP on Chr. 4] `DosageMatrix_DCas20_5360_REFimputedWithC1unfiltered_PostImputeFiltered.rds`
+
+    -   DCas20\_5360 with "light" post-impute filter: [**WARNING:** 0 SNP on Chr. 4] `DosageMartix_DCas20_5360_REFimputedWithC1unfiltered_LightPostImputeFiltDR2pt3.rds`
+
+**NOTICE:** `REFimputedWithC1unfiltered` is not a good dataset. Chr. 4 is entirely filtered out, including using the "lighter" filter. This emphasizes that it is not a good idea to use poorly imputed haplotypes in the reference panel... evidenced also by the fact that the `REFimputedWithC1filtered` has markers passing filters on all chromosomes.
 
 3.  Last year's reference panel + C1 (reduce refpanel to sites passing post-impute filter in C1 = 9K SNP)
 
 -   **RefPanel VCF filename:** `chr*_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA.vcf.gz`
--   **Imputed C2 filename:** `chr*_DCas20_5360_REFimputedWithC1filtered.vcf.gz`
--   **Post-impute filtered C2 filename:** `chr*_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered.vcf.gz`
--   **Genome-wide dosage matrix format for use in R:** 
-        + Imputation Reference Panel: `DosageMatrix_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA.rds`
-        + DCas20_5360 with standard post-impute filter: `DosageMatrix_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered.rds`
-        + DCas20_5360 with "light" post-impute filter: `DosageMartix_DCas20_5360_REFimputedWithC1filtered_LightPostImputeFiltDR2pt3.rds`
 
+-   **Imputed C2 filename:** `chr*_DCas20_5360_REFimputedWithC1filtered.vcf.gz`
+
+-   **Post-impute filtered C2 filename:** `chr*_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered.vcf.gz`
+
+-   **Genome-wide dosage matrix format for use in R:**
+
+    -   Imputation Reference Panel: `DosageMatrix_ImputationReferencePanel_C1progenyAddedFilteredSites_EMBRAPA.rds`
+
+    -   DCas20\_5360 with standard post-impute filter: `DosageMatrix_DCas20_5360_REFimputedWithC1filtered_PostImputeFiltered.rds`
+
+    -   DCas20\_5360 with "light" post-impute filter: `DosageMartix_DCas20_5360_REFimputedWithC1filtered_LightPostImputeFiltDR2pt3.rds`
 
 **HOW TO COMBINE DOSAGE MATRICES:** Users will want to combine the genotypes in the imputation reference panel files, with the genotypes in the imputed DArT file. They can have slightly different sets of markers along the columns. Here is a basic example how to combine:
+
 ```{r, eval=F}
 snps_refpanel<-readRDS("DosageMatrix_ImputationReferencePanel_EMBRAPA_Phased_102619.rds")
 snps_dcas20_5360<-readRDS("DosageMatrix_DCas20_5360_REFimputeLightFiltDR2pt3.rds")
